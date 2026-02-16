@@ -7,31 +7,29 @@ export interface Animal {
 
 export const animals: Animal[] = [
   // Easy animals
-  { name: 'Cat', emoji: '🐱', soundUrl: 'https://freesound.org/data/previews/316/316847_5123451-lq.mp3', difficulty: 'easy' },
-  { name: 'Dog', emoji: '🐶', soundUrl: 'https://freesound.org/data/previews/546/546044_7037-lq.mp3', difficulty: 'easy' },
-  { name: 'Cow', emoji: '🐄', soundUrl: 'https://freesound.org/data/previews/316/316805_5123451-lq.mp3', difficulty: 'easy' },
-  { name: 'Horse', emoji: '🐴', soundUrl: 'https://freesound.org/data/previews/316/316845_5123451-lq.mp3', difficulty: 'easy' },
-  { name: 'Sheep', emoji: '🐑', soundUrl: 'https://freesound.org/data/previews/316/316830_5123451-lq.mp3', difficulty: 'easy' },
-  { name: 'Pig', emoji: '🐷', soundUrl: 'https://freesound.org/data/previews/316/316828_5123451-lq.mp3', difficulty: 'easy' },
-  
+  { name: 'Cat', emoji: '🐱', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/6/69/Purring_cat_bertie.ogg', difficulty: 'easy' },
+  { name: 'Dog', emoji: '🐶', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e8/Dog.ogg', difficulty: 'easy' },
+  { name: 'Cow', emoji: '🐄', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/a5/Single_Cow_Moo.ogg', difficulty: 'easy' },
+  { name: 'Rooster', emoji: '🐓', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/c/c5/Small_rooster_crowing.ogg', difficulty: 'easy' },
+  { name: 'Sheep', emoji: '🐑', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/13/Sheep_bleating.ogg', difficulty: 'easy' },
+  { name: 'Pig', emoji: '🐷', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Pig_grunt_-_Erdie.ogg', difficulty: 'easy' },
+  { name: 'Horse', emoji: '🐴', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/6/60/WWS_Clatterofhorseshoesonthepavement.ogg', difficulty: 'easy' },
+
   // Medium animals
-  { name: 'Lion', emoji: '🦁', soundUrl: 'https://freesound.org/data/previews/316/316849_5123451-lq.mp3', difficulty: 'medium' },
-  { name: 'Eagle', emoji: '🦅', soundUrl: 'https://freesound.org/data/previews/316/316810_5123451-lq.mp3', difficulty: 'medium' },
-  { name: 'Wolf', emoji: '🐺', soundUrl: 'https://freesound.org/data/previews/316/316851_5123451-lq.mp3', difficulty: 'medium' },
-  { name: 'Elephant', emoji: '🐘', soundUrl: 'https://freesound.org/data/previews/316/316809_5123451-lq.mp3', difficulty: 'medium' },
-  { name: 'Monkey', emoji: '🐒', soundUrl: 'https://freesound.org/data/previews/316/316822_5123451-lq.mp3', difficulty: 'medium' },
-  { name: 'Bear', emoji: '🐻', soundUrl: 'https://freesound.org/data/previews/316/316803_5123451-lq.mp3', difficulty: 'medium' },
-  { name: 'Owl', emoji: '🦉', soundUrl: 'https://freesound.org/data/previews/316/316824_5123451-lq.mp3', difficulty: 'medium' },
-  { name: 'Frog', emoji: '🐸', soundUrl: 'https://freesound.org/data/previews/316/316813_5123451-lq.mp3', difficulty: 'medium' },
-  
+  { name: 'Lion', emoji: '🦁', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/8/88/Lion_Mad.ogg', difficulty: 'medium' },
+  { name: 'Wolf', emoji: '🐺', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/8/87/Wolf_howls.ogg', difficulty: 'medium' },
+  { name: 'Owl', emoji: '🦉', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/6/64/Pacific_Pygmy_Owl_call_%28Glaucidium_peruanum%29.ogg', difficulty: 'medium' },
+  { name: 'Frog', emoji: '🐸', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/9/94/Frog_sounds.ogg', difficulty: 'medium' },
+  { name: 'Elephant', emoji: '🐘', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/f/f5/Bee-Threat-Elicits-Alarm-Call-in-African-Elephants-pone.0010346.s002.ogg', difficulty: 'medium' },
+  { name: 'Monkey', emoji: '🐒', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/8/81/Mantled_Howler_Monkey_%28Alouatta_palliata%29_%28W_ALOUATTA_PALLIATA_R1_C2%29.ogg', difficulty: 'medium' },
+  { name: 'Whale', emoji: '🐋', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/72/Sound_Effect_Humpback_Whale.ogg', difficulty: 'medium' },
+  { name: 'Cricket', emoji: '🦗', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/9/9e/Unknown_Cricket_VOL_11-09_Dudley_T._Dougherty_Natural_Sounds_Collection.ogg', difficulty: 'medium' },
+
   // Hard animals
-  { name: 'Kookaburra', emoji: '🦜', soundUrl: 'https://freesound.org/data/previews/316/316817_5123451-lq.mp3', difficulty: 'hard' },
-  { name: 'Red Fox', emoji: '🦊', soundUrl: 'https://freesound.org/data/previews/316/316811_5123451-lq.mp3', difficulty: 'hard' },
-  { name: 'Lyrebird', emoji: '🐦', soundUrl: 'https://freesound.org/data/previews/316/316820_5123451-lq.mp3', difficulty: 'hard' },
-  { name: 'Cicada', emoji: '🦗', soundUrl: 'https://freesound.org/data/previews/316/316805_5123451-lq.mp3', difficulty: 'hard' },
-  { name: 'Hyena', emoji: '🐺', soundUrl: 'https://freesound.org/data/previews/316/316815_5123451-lq.mp3', difficulty: 'hard' },
-  { name: 'Dolphin', emoji: '🐬', soundUrl: 'https://freesound.org/data/previews/316/316808_5123451-lq.mp3', difficulty: 'hard' },
-  { name: 'Whale', emoji: '🐋', soundUrl: 'https://freesound.org/data/previews/316/316850_5123451-lq.mp3', difficulty: 'hard' },
+  { name: 'Kookaburra', emoji: '🐦', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/c/ca/LaughingKookaburra.ogg', difficulty: 'hard' },
+  { name: 'Red Fox', emoji: '🦊', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/79/Red_Fox_%28Vulpes_vulpes%29_%28W1CDR0001529_BD12%29.ogg', difficulty: 'hard' },
+  { name: 'Hyena', emoji: '🦴', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Giggling_call_of_a_spotted_hyena_%28Crocuta_crocuta%29_-_1472-6785-10-9-S4.oga', difficulty: 'hard' },
+  { name: 'Cicada', emoji: '🪲', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/d/d5/Cicada_sound.ogg', difficulty: 'hard' },
 ];
 
 export function getRandomAnimals(count: number): Animal[] {
@@ -44,7 +42,7 @@ export function generateChoices(correctAnimal: Animal, allAnimals: Animal[]): An
     .filter(animal => animal.name !== correctAnimal.name)
     .sort(() => 0.5 - Math.random())
     .slice(0, 3);
-  
+
   const choices = [correctAnimal, ...incorrectChoices];
   return choices.sort(() => 0.5 - Math.random());
 }
