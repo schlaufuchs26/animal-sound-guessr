@@ -139,17 +139,31 @@ test('full game flow - 10 rounds, game over screen appears', async ({ page }) =>
 test('restart functionality works', async ({ page }) => {
   await page.goto('/');
   
-  // Play through a few rounds quickly
-  for (let i = 0; i < 3; i++) {
+  // Play through all 10 rounds quickly to get to game over screen
+  for (let round = 1; round <= 10; round++) {
     await page.locator('.choice-button').first().click();
     await page.waitForSelector('#result-section:visible');
-    if (i < 2) {
+    
+    if (round < 10) {
       await page.locator('#next-button').click();
+      await page.waitForTimeout(200);
+    } else {
+      // On round 10, either next button leads to game over or game over appears automatically
+      const nextButton = page.locator('#next-button');
+      if (await nextButton.isVisible()) {
+        await nextButton.click();
+        await page.waitForTimeout(1000);
+      }
     }
   }
   
-  // Click restart (this should start a new game immediately)
-  await page.locator('#restart-button').click();
+  // Wait for game over screen to appear
+  await expect(page.locator('#game-over')).toBeVisible({ timeout: 10000 });
+  
+  // Click restart
+  const restartButton = page.locator('#restart-button');
+  await expect(restartButton).toBeVisible();
+  await restartButton.click();
   
   // Should be back to round 1
   const roundCounter = page.locator('#round-counter');
@@ -164,4 +178,7 @@ test('restart functionality works', async ({ page }) => {
   
   // Game over section should not be visible
   await expect(page.locator('#game-over')).not.toBeVisible();
+  
+  // Should be showing question again
+  await expect(page.locator('.choice-button')).toHaveCount(4);
 });
