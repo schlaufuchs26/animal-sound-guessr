@@ -7,6 +7,7 @@ class GameUI {
   private playButton: HTMLButtonElement | null = null;
   private waveform: HTMLElement | null = null;
   private choiceButtons: HTMLButtonElement[] = [];
+  private checkPlayingInterval: ReturnType<typeof setInterval> | null = null;
 
   constructor() {
     this.game = new SoundGuessrGame();
@@ -56,6 +57,7 @@ class GameUI {
                 <span>🔊 Click to play sound</span>
               </div>
             </div>
+            <div id="audio-status" class="audio-status"></div>
           </div>
 
           <div class="choices" id="choices"></div>
@@ -143,6 +145,8 @@ class GameUI {
     if (this.playButton) {
       this.playButton.textContent = '▶️';
     }
+    
+    this.setAudioStatus('');
   }
 
   private renderChoices(): void {
@@ -166,7 +170,15 @@ class GameUI {
     });
   }
 
+  private clearCheckPlayingInterval(): void {
+    if (this.checkPlayingInterval) {
+      clearInterval(this.checkPlayingInterval);
+      this.checkPlayingInterval = null;
+    }
+  }
+
   private stopSound(): void {
+    this.clearCheckPlayingInterval();
     this.game.stopSound();
     if (this.playButton) {
       this.playButton.textContent = '▶️';
@@ -175,28 +187,57 @@ class GameUI {
       this.waveform.className = 'waveform';
       this.waveform.innerHTML = '<span>🔊 Click to replay</span>';
     }
+    this.setAudioStatus('');
+  }
+
+  private setAudioStatus(message: string, isError = false): void {
+    const statusEl = document.getElementById('audio-status');
+    if (statusEl) {
+      statusEl.textContent = message;
+      statusEl.className = isError ? 'audio-status error' : 'audio-status';
+    }
   }
 
   private async playSound(): Promise<void> {
+    this.clearCheckPlayingInterval();
+    
     if (this.playButton) {
-      this.playButton.textContent = '⏸️';
+      this.playButton.textContent = '⌛'; // Loading state
     }
 
     if (this.waveform) {
-      this.waveform.className = 'waveform playing';
-      this.waveform.innerHTML = '<span>🎵 Playing...</span>';
+      this.waveform.className = 'waveform loading';
+      this.waveform.innerHTML = '<span>⏳ Loading sound...</span>';
     }
+    
+    this.setAudioStatus('Loading audio...');
 
     try {
       await this.game.playSound();
+      
+      if (this.playButton) {
+        this.playButton.textContent = '⏸️';
+      }
+      if (this.waveform) {
+        this.waveform.className = 'waveform playing';
+        this.waveform.innerHTML = '<span>🎵 Playing...</span>';
+      }
+      this.setAudioStatus('');
     } catch (error) {
       console.error('Error playing sound:', error);
+      this.setAudioStatus('Error: Failed to load sound.', true);
+      if (this.playButton) this.playButton.textContent = '▶️';
+      if (this.waveform) {
+        this.waveform.className = 'waveform';
+        this.waveform.innerHTML = '<span>❌ Load failed</span>';
+      }
+      return;
     }
 
     // Check when audio finishes naturally
-    const checkPlaying = setInterval(() => {
+    this.checkPlayingInterval = setInterval(() => {
       if (!this.game.getState().isPlaying) {
-        clearInterval(checkPlaying);
+        this.clearCheckPlayingInterval();
         if (this.playButton) {
           this.playButton.textContent = '▶️';
         }
@@ -209,6 +250,7 @@ class GameUI {
   }
 
   private makeGuess(animal: any): void {
+    this.stopSound();
     this.game.makeGuess(animal);
     this.choiceButtons.forEach(button => { button.disabled = true; });
     this.updateUI();
@@ -248,14 +290,19 @@ class GameUI {
       <div class="answer-name">${state.currentAnimal.name}</div>
       <a class="source-link" href="${state.currentAnimal.sourceUrl}" target="_blank" rel="noopener">🔗 Sound source (Wikimedia Commons)</a>
     `;
+    
+    // Auto-play correct sound on reveal
+    this.playSound();
   }
 
   private nextRound(): void {
+    this.stopSound();
     this.game.nextRound();
     this.updateUI();
   }
 
   private showGameOver(): void {
+    this.stopSound();
     const gameOverSection = document.getElementById('game-over');
     const finalScore = document.getElementById('final-score');
     const scoreBreakdown = document.getElementById('score-breakdown');
@@ -299,6 +346,7 @@ class GameUI {
   }
 
   private restartGame(): void {
+    this.stopSound();
     this.game.startGame();
     this.updateUI();
   }

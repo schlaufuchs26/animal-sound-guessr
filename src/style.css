@@ -376,6 +376,26 @@ body {
   }
 }
 
+.audio-status {
+  height: 20px;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.audio-status.error {
+  color: var(--error-color);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.waveform.loading {
+  background-color: rgba(74, 144, 226, 0.05);
+}
+
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   #app {
