@@ -24,7 +24,7 @@ class GameUI {
     this.app.innerHTML = `
       <div class="game-container">
         <div class="header">
-          <h1 class="title">🔊 SoundGuessr</h1>
+          <h1 class="title">🔊 Critter Calls</h1>
           <p class="subtitle">Guess the animal from its sound!</p>
         </div>
 
@@ -83,7 +83,13 @@ class GameUI {
     this.playButton = document.getElementById('play-button') as HTMLButtonElement;
     this.waveform = document.getElementById('waveform') as HTMLElement;
 
-    this.playButton?.addEventListener('click', () => this.playSound());
+    this.playButton?.addEventListener('click', () => {
+      if (this.game.getState().isPlaying) {
+        this.stopSound();
+      } else {
+        this.playSound();
+      }
+    });
 
     document.getElementById('next-button')?.addEventListener('click', () => this.nextRound());
     document.getElementById('restart-button')?.addEventListener('click', () => this.restartGame());
@@ -149,6 +155,18 @@ class GameUI {
       this.choiceButtons.push(button);
       choicesContainer.appendChild(button);
     });
+  }
+
+  private stopSound(): void {
+    this.game.stopSound();
+    if (this.playButton) {
+      this.playButton.disabled = false;
+      this.playButton.textContent = '▶️';
+    }
+    if (this.waveform) {
+      this.waveform.className = 'waveform';
+      this.waveform.innerHTML = '<span>🔊 Click to replay</span>';
+    }
   }
 
   private async playSound(): Promise<void> {
