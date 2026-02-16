@@ -114,6 +114,16 @@ class GameUI {
 
       // Space to play/pause
       if (e.code === 'Space') {
+        const target = e.target as HTMLElement | null;
+        const isInteractive =
+          !!target &&
+          (target.closest('button, a, input, textarea, select') !== null ||
+            target.isContentEditable);
+
+        // Do not override default behavior when focused on interactive elements
+        if (isInteractive) {
+          return;
+        }
         e.preventDefault();
         if (state.isPlaying) {
           this.stopSound();
