@@ -193,6 +193,10 @@ body {
   text-align: center;
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .choice-button:hover {
@@ -214,6 +218,34 @@ body {
 .choice-button:disabled {
   cursor: not-allowed;
 }
+
+.key-hint {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: 0.7rem;
+  background: #eee;
+  color: #888;
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.difficulty-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: bold;
+  padding: 3px 8px;
+  border-radius: 20px;
+  margin-bottom: 0.5rem;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.difficulty-badge.easy { background-color: #27ae60; }
+.difficulty-badge.medium { background-color: #f39c12; }
+.difficulty-badge.hard { background-color: #e74c3c; }
 
 .animal-emoji {
   font-size: 2rem;
@@ -423,6 +455,10 @@ body {
     width: 70px;
     height: 70px;
     font-size: 1.8rem;
+  }
+
+  .key-hint {
+    display: none;
   }
 }
 

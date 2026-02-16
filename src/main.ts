@@ -50,9 +50,10 @@ class GameUI {
 
         <div class="game-area" id="game-area">
           <div class="sound-section">
+            <div class="difficulty-badge" id="difficulty-badge"></div>
             <h2 class="sound-question">What animal makes this sound?</h2>
             <div class="sound-controls">
-              <button class="play-button" id="play-button">▶️</button>
+              <button class="play-button" id="play-button" title="Play Sound (Space)">▶️</button>
               <div class="waveform" id="waveform">
                 <span>🔊 Click to play sound</span>
               </div>
@@ -65,7 +66,7 @@ class GameUI {
           <div class="result-section" id="result-section" style="display: none;">
             <div class="result-message" id="result-message"></div>
             <div class="answer-display" id="answer-display"></div>
-            <button class="next-button" id="next-button">Next Round</button>
+            <button class="next-button" id="next-button" title="Next Round (Enter)">Next Round</button>
           </div>
 
           <div class="game-over" id="game-over" style="display: none;">
@@ -95,6 +96,37 @@ class GameUI {
 
     document.getElementById('next-button')?.addEventListener('click', () => this.nextRound());
     document.getElementById('restart-button')?.addEventListener('click', () => this.restartGame());
+
+    // Keyboard support
+    window.addEventListener('keydown', (e) => {
+      const state = this.game.getState();
+      
+      // 1-4 for choices
+      if (!state.showAnswer && !state.gameOver) {
+        const key = parseInt(e.key);
+        if (key >= 1 && key <= 4) {
+          const index = key - 1;
+          if (this.choiceButtons[index]) {
+            this.makeGuess(state.choices[index]);
+          }
+        }
+      }
+
+      // Space to play/pause
+      if (e.code === 'Space') {
+        e.preventDefault();
+        if (state.isPlaying) {
+          this.stopSound();
+        } else if (!state.gameOver) {
+          this.playSound();
+        }
+      }
+
+      // Enter for Next Round
+      if (e.code === 'Enter' && state.showAnswer && !state.gameOver) {
+        this.nextRound();
+      }
+    });
   }
 
   private updateUI(): void {
@@ -104,11 +136,17 @@ class GameUI {
     const score = document.getElementById('score');
     const streak = document.getElementById('streak');
     const progressFill = document.getElementById('progress-fill') as HTMLElement;
+    const difficultyBadge = document.getElementById('difficulty-badge');
 
     if (roundCounter) roundCounter.textContent = `${state.currentRound}/${state.totalRounds}`;
     if (score) score.textContent = state.score.toString();
     if (streak) streak.textContent = state.streak.toString();
     if (progressFill) progressFill.style.width = `${this.game.getProgress()}%`;
+    
+    if (difficultyBadge && state.currentAnimal) {
+      difficultyBadge.textContent = state.currentAnimal.difficulty.toUpperCase();
+      difficultyBadge.className = `difficulty-badge ${state.currentAnimal.difficulty}`;
+    }
 
     if (state.gameOver) {
       this.showGameOver();
@@ -157,10 +195,11 @@ class GameUI {
     choicesContainer.innerHTML = '';
     this.choiceButtons = [];
 
-    state.choices.forEach((animal) => {
+    state.choices.forEach((animal, index) => {
       const button = document.createElement('button');
       button.className = 'choice-button';
       button.innerHTML = `
+        <span class="key-hint">${index + 1}</span>
         <span class="animal-emoji">${animal.emoji}</span>
         <span>${animal.name}</span>
       `;
@@ -267,7 +306,7 @@ class GameUI {
     const isCorrect = state.selectedChoice?.name === state.currentAnimal.name;
 
     this.choiceButtons.forEach(button => {
-      const animalName = button.querySelector('span:not(.animal-emoji)')?.textContent;
+      const animalName = button.querySelector('span:not(.animal-emoji):not(.key-hint)')?.textContent;
       if (animalName === state.currentAnimal!.name) {
         button.classList.add('correct');
       } else if (animalName === state.selectedChoice?.name && !isCorrect) {
