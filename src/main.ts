@@ -131,7 +131,6 @@ class GameUI {
     }
 
     if (this.playButton) {
-      this.playButton.disabled = false;
       this.playButton.textContent = '▶️';
     }
   }
@@ -160,7 +159,6 @@ class GameUI {
   private stopSound(): void {
     this.game.stopSound();
     if (this.playButton) {
-      this.playButton.disabled = false;
       this.playButton.textContent = '▶️';
     }
     if (this.waveform) {
@@ -171,7 +169,6 @@ class GameUI {
 
   private async playSound(): Promise<void> {
     if (this.playButton) {
-      this.playButton.disabled = true;
       this.playButton.textContent = '⏸️';
     }
 
@@ -186,12 +183,11 @@ class GameUI {
       console.error('Error playing sound:', error);
     }
 
-    // Re-enable after a delay
+    // Check when audio finishes naturally
     const checkPlaying = setInterval(() => {
       if (!this.game.getState().isPlaying) {
         clearInterval(checkPlaying);
         if (this.playButton) {
-          this.playButton.disabled = false;
           this.playButton.textContent = '▶️';
         }
         if (this.waveform) {
@@ -199,7 +195,7 @@ class GameUI {
           this.waveform.innerHTML = '<span>🔊 Click to replay</span>';
         }
       }
-    }, 500);
+    }, 100);
   }
 
   private makeGuess(animal: any): void {
@@ -240,6 +236,7 @@ class GameUI {
     answerDisplay.innerHTML = `
       <span class="answer-emoji">${state.currentAnimal.emoji}</span>
       <div class="answer-name">${state.currentAnimal.name}</div>
+      <a class="source-link" href="${state.currentAnimal.sourceUrl}" target="_blank" rel="noopener">🔗 Sound source (Wikimedia Commons)</a>
     `;
   }
 

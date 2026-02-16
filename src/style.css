@@ -380,3 +380,17 @@ body {
     font-size: 1.5rem;
   }
 }
+.source-link {
+  display: inline-block;
+  margin-top: 0.75rem;
+  color: #7eb8da;
+  font-size: 0.85rem;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.source-link:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
