@@ -114,20 +114,19 @@ class GameUI {
       // Space to play/pause
       if (e.code === 'Space') {
         const target = e.target as HTMLElement | null;
-        const isInteractive =
-          !!target &&
-          (target.closest('button, a, input, textarea, select') !== null ||
-            target.isContentEditable);
+        const isInteractive = !!target && (
+          target.closest('button, a, input, textarea, select') !== null || 
+          target.isContentEditable
+        );
 
-        // Do not override default behavior when focused on interactive elements
-        if (isInteractive) {
-          return;
-        }
-        e.preventDefault();
-        if (state.isPlaying) {
-          this.stopSound();
-        } else if (!state.gameOver) {
-          this.playSound();
+        // Only prevent default and handle play/pause if not focusing an interactive element
+        if (!isInteractive) {
+          e.preventDefault();
+          if (state.isPlaying) {
+            this.stopSound();
+          } else if (!state.gameOver) {
+            this.playSound();
+          }
         }
       }
 
