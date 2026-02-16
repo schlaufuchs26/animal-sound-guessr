@@ -20,7 +20,7 @@ export const animals: Animal[] = [
   { name: 'Horse', emoji: '🐴', soundUrl: LOCAL + 'horse.ogg', sourceUrl: 'https://commons.wikimedia.org/wiki/File:Wiehern.ogg', difficulty: 'easy' },
 
   // Medium animals
-  { name: 'Lion', emoji: '🦁', soundUrl: LOCAL + 'lion.ogg', sourceUrl: 'https://commons.wikimedia.org/wiki/File:Lion_Mad.ogg', difficulty: 'medium' },
+  { name: 'Lion', emoji: '🦁', soundUrl: LOCAL + 'lion.ogg', sourceUrl: 'https://commons.wikimedia.org/wiki/File:Lion_raring-sound1TamilNadu178.ogg', difficulty: 'medium' },
   { name: 'Wolf', emoji: '🐺', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/8/87/Wolf_howls.ogg', sourceUrl: 'https://commons.wikimedia.org/wiki/File:Wolf_howls.ogg', difficulty: 'medium' },
   { name: 'Owl', emoji: '🦉', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/6/64/Pacific_Pygmy_Owl_call_%28Glaucidium_peruanum%29.ogg', sourceUrl: 'https://commons.wikimedia.org/wiki/File:Pacific_Pygmy_Owl_call_(Glaucidium_peruanum).ogg', difficulty: 'medium' },
   { name: 'Frog', emoji: '🐸', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/9/94/Frog_sounds.ogg', sourceUrl: 'https://commons.wikimedia.org/wiki/File:Frog_sounds.ogg', difficulty: 'medium' },
