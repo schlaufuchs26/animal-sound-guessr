@@ -103,9 +103,8 @@ class GameUI {
       
       // 1-4 for choices
       if (!state.showAnswer && !state.gameOver) {
-        const key = parseInt(e.key);
-        if (key >= 1 && key <= 4) {
-          const index = key - 1;
+        if (['1', '2', '3', '4'].includes(e.key)) {
+          const index = Number(e.key) - 1;
           if (this.choiceButtons[index]) {
             this.makeGuess(state.choices[index]);
           }
