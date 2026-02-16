@@ -120,8 +120,18 @@ class GameUI {
   private showQuestion(): void {
     const resultSection = document.getElementById('result-section');
     const gameOverSection = document.getElementById('game-over');
+    const gameArea = document.getElementById('game-area');
+
     if (resultSection) resultSection.style.display = 'none';
     if (gameOverSection) gameOverSection.style.display = 'none';
+
+    // Ensure game area elements are visible
+    if (gameArea) {
+      const soundSection = gameArea.querySelector('.sound-section') as HTMLElement;
+      const choices = gameArea.querySelector('.choices') as HTMLElement;
+      if (soundSection) soundSection.style.display = 'block';
+      if (choices) choices.style.display = 'grid';
+    }
 
     this.renderChoices();
 
@@ -249,10 +259,19 @@ class GameUI {
     const gameOverSection = document.getElementById('game-over');
     const finalScore = document.getElementById('final-score');
     const scoreBreakdown = document.getElementById('score-breakdown');
+    const gameArea = document.getElementById('game-area');
 
     if (!gameOverSection || !finalScore || !scoreBreakdown) return;
 
     const stats = this.game.getFinalStats();
+
+    // Hide game area to prevent overlap
+    if (gameArea) {
+      const soundSection = gameArea.querySelector('.sound-section') as HTMLElement;
+      const choices = gameArea.querySelector('.choices') as HTMLElement;
+      if (soundSection) soundSection.style.display = 'none';
+      if (choices) choices.style.display = 'none';
+    }
 
     gameOverSection.style.display = 'block';
     finalScore.textContent = stats.totalScore.toString();
