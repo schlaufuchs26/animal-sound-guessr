@@ -18,7 +18,7 @@ export const animals: Animal[] = [
   { name: 'Duck', emoji: '🦆', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Anas_platyrhynchos_-_Mallard_-_XC62258.ogg', sourceUrl: 'https://commons.wikimedia.org/wiki/File:Anas_platyrhynchos_-_Mallard_-_XC62258.ogg', difficulty: 'easy' },
   { name: 'Goat', emoji: '🐐', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/b/bc/Herd_of_goats_bleating.ogg', sourceUrl: 'https://commons.wikimedia.org/wiki/File:Herd_of_goats_bleating.ogg', difficulty: 'easy' },
   { name: 'Goose', emoji: '🪿', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/aa/Geese_Honking_%28loud%29.ogg', sourceUrl: 'https://commons.wikimedia.org/wiki/File:Geese_Honking_(loud).ogg', difficulty: 'easy' },
-  { name: 'Turkey', emoji: '🦃', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/14/Meleagris_gallopavo_-_Wild_Turkey_-_XC470656.ogg', sourceUrl: 'https://commons.wikimedia.org/wiki/File:Meleagris_gallopavo_-_Wild_Turkey_-_XC470656.ogg', difficulty: 'easy' },
+  { name: 'Turkey', emoji: '🦃', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/11/Gobbler.ogg', sourceUrl: 'https://commons.wikimedia.org/wiki/File:Gobbler.ogg', difficulty: 'easy' },
 
   // Medium animals
   { name: 'Lion', emoji: '🦁', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/7d/Lion_raring-sound1TamilNadu178.ogg', sourceUrl: 'https://commons.wikimedia.org/wiki/File:Lion_raring-sound1TamilNadu178.ogg', difficulty: 'medium' },
@@ -46,7 +46,7 @@ export const animals: Animal[] = [
   { name: 'Guinea Pig', emoji: '🐹', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e2/Guinea_Pig_Feeding_Wheek.ogg', sourceUrl: 'https://commons.wikimedia.org/wiki/File:Guinea_Pig_Feeding_Wheek.ogg', difficulty: 'hard' },
   { name: 'Camel', emoji: '🐫', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/b/b5/Camel_Sound.ogg', sourceUrl: 'https://commons.wikimedia.org/wiki/File:Camel_Sound.ogg', difficulty: 'hard' },
   { name: 'Bison', emoji: '🦬', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e0/Bison_Sound.ogg', sourceUrl: 'https://commons.wikimedia.org/wiki/File:Bison_Sound.ogg', difficulty: 'hard' },
-  { name: 'Moose', emoji: '🫎', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/6/62/Moose_mate.ogg', sourceUrl: 'https://commons.wikimedia.org/wiki/File:Moose_mate.ogg', difficulty: 'hard' },
+  { name: 'Moose', emoji: '🫎', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/9/96/Elkbellow.ogg', sourceUrl: 'https://commons.wikimedia.org/wiki/File:Elkbellow.ogg', difficulty: 'hard' },
   { name: 'Cuckoo', emoji: '🐦', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/14/Cuculus_canorus_-_Common_Cuckoo_-_XC639207.ogg', sourceUrl: 'https://commons.wikimedia.org/wiki/File:Cuculus_canorus_-_Common_Cuckoo_-_XC639207.ogg', difficulty: 'hard' },
 ];
 
