@@ -23,7 +23,12 @@ class GameUI {
 
   private render(): void {
     this.app.innerHTML = `
-      <div class="game-container">
+      <div id="squirrel-overlay" class="squirrel-overlay">
+        <span class="emoji">🐿️🐿️🐿️</span>
+        <h2>SQUIRREL ROUND!</h2>
+        <p>Listen for TWO animals at once!</p>
+      </div>
+      <div class="game-container" id="main-container">
         <div class="header">
           <h1 class="title">🔊 Critter Calls</h1>
           <p class="subtitle">Guess the animal from its sound!</p>
@@ -154,13 +159,15 @@ class GameUI {
     
     if (difficultyBadge) {
       if (state.isSquirrelRound) {
-        difficultyBadge.textContent = "SQUIRREL ROUND 🐿️";
+        difficultyBadge.innerHTML = '<span class="squirrel-alert">🐿️ SQUIRREL ROUND 🐿️</span>';
         difficultyBadge.className = `difficulty-badge hard`;
         if (soundQuestion) soundQuestion.textContent = "Which TWO animals do you hear?";
+        document.getElementById('main-container')?.classList.add('squirrel-mode-active');
       } else if (state.currentAnimal) {
         difficultyBadge.textContent = state.currentAnimal.difficulty.toUpperCase();
         difficultyBadge.className = `difficulty-badge ${state.currentAnimal.difficulty}`;
         if (soundQuestion) soundQuestion.textContent = "What animal makes this sound?";
+        document.getElementById('main-container')?.classList.remove('squirrel-mode-active');
       }
     }
 
@@ -383,9 +390,29 @@ class GameUI {
   }
 
   private nextRound(): void {
+    const wasSquirrel = this.game.getState().isSquirrelRound;
     this.stopSound();
     this.game.nextRound();
-    this.updateUI();
+    const isSquirrel = this.game.getState().isSquirrelRound;
+
+    if (isSquirrel && !wasSquirrel) {
+      this.showSquirrelRoundIntro();
+    } else {
+      this.updateUI();
+    }
+  }
+
+  private showSquirrelRoundIntro(): void {
+    const overlay = document.getElementById('squirrel-overlay');
+    if (overlay) {
+      overlay.classList.add('show');
+      setTimeout(() => {
+        overlay.classList.remove('show');
+        this.updateUI();
+      }, 2000);
+    } else {
+      this.updateUI();
+    }
   }
 
   private showGameOver(): void {
