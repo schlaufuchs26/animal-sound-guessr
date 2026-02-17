@@ -44,7 +44,7 @@ class GameUI {
             <div class="stat-label">Round</div>
           </div>
           <div class="stat">
-            <div class="stat-value" id="score">0</div>
+            <div class="stat-value" id="score">0 / 0</div>
             <div class="stat-label">Score</div>
           </div>
           <div class="stat">
@@ -153,7 +153,7 @@ class GameUI {
     const soundQuestion = document.getElementById('sound-question');
 
     if (roundCounter) roundCounter.textContent = `${state.currentRound}/${state.totalRounds}`;
-    if (score) score.textContent = state.score.toString();
+    if (score) score.textContent = `${state.score} / ${state.maxPossibleScore}`;
     if (streak) streak.textContent = state.streak.toString();
     if (progressFill) progressFill.style.width = `${this.game.getProgress()}%`;
     

@@ -16,6 +16,7 @@ export interface GameState {
   isSquirrelRound: boolean;
   squirrelAnimals: Animal[];
   selectedSquirrelChoices: Animal[];
+  maxPossibleScore: number;
 }
 
 export interface RoundResult {
@@ -23,6 +24,7 @@ export interface RoundResult {
   selectedChoice: Animal | Animal[];
   correct: boolean;
   points: number;
+  maxPoints: number;
   isSquirrelRound: boolean;
 }
 
@@ -52,7 +54,8 @@ export class SoundGuessrGame {
       roundHistory: [],
       isSquirrelRound: false,
       squirrelAnimals: [],
-      selectedSquirrelChoices: []
+      selectedSquirrelChoices: [],
+      maxPossibleScore: 0
     };
   }
 
@@ -186,14 +189,27 @@ export class SoundGuessrGame {
     this.state.showAnswer = true;
 
     let points = 0;
-    if (isCorrect) {
-      if (this.state.isSquirrelRound) {
-        points = 500; // Bonus for squirrel round
-      } else {
-        const basePoints = { easy: 100, medium: 200, hard: 300 };
-        points = basePoints[(animal as Animal).difficulty];
-      }
+    let baseRoundPoints = 0;
 
+    if (this.state.isSquirrelRound) {
+      baseRoundPoints = 500;
+    } else {
+      const basePoints = { easy: 100, medium: 200, hard: 300 };
+      baseRoundPoints = basePoints[(animal as Animal).difficulty];
+    }
+
+    // Max possible score assumes perfect streak from the start
+    // Streak multipliers: >=3 rounds: 1.5x, >=5 rounds: 2x
+    let currentMaxRoundPoints = baseRoundPoints;
+    if (this.state.currentRound >= 6) { // Possible to have streak of 5
+      currentMaxRoundPoints *= 2;
+    } else if (this.state.currentRound >= 4) { // Possible to have streak of 3
+      currentMaxRoundPoints *= 1.5;
+    }
+    this.state.maxPossibleScore += Math.round(currentMaxRoundPoints);
+
+    if (isCorrect) {
+      points = baseRoundPoints;
       // Streak bonus
       if (this.state.streak >= 5) {
         points = Math.round(points * 2);
@@ -213,6 +229,7 @@ export class SoundGuessrGame {
       selectedChoice: choice,
       correct: isCorrect,
       points,
+      maxPoints: Math.round(currentMaxRoundPoints),
       isSquirrelRound: this.state.isSquirrelRound
     });
 
