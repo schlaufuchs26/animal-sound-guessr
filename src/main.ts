@@ -51,7 +51,7 @@ class GameUI {
         <div class="game-area" id="game-area">
           <div class="sound-section">
             <div class="difficulty-badge" id="difficulty-badge"></div>
-            <h2 class="sound-question">What animal makes this sound?</h2>
+            <h2 class="sound-question" id="sound-question">What animal makes this sound?</h2>
             <div class="sound-controls">
               <button class="play-button" id="play-button" title="Play Sound (Space)">▶️</button>
               <div class="waveform" id="waveform">
@@ -145,15 +145,23 @@ class GameUI {
     const streak = document.getElementById('streak');
     const progressFill = document.getElementById('progress-fill') as HTMLElement;
     const difficultyBadge = document.getElementById('difficulty-badge');
+    const soundQuestion = document.getElementById('sound-question');
 
     if (roundCounter) roundCounter.textContent = `${state.currentRound}/${state.totalRounds}`;
     if (score) score.textContent = state.score.toString();
     if (streak) streak.textContent = state.streak.toString();
     if (progressFill) progressFill.style.width = `${this.game.getProgress()}%`;
     
-    if (difficultyBadge && state.currentAnimal) {
-      difficultyBadge.textContent = state.currentAnimal.difficulty.toUpperCase();
-      difficultyBadge.className = `difficulty-badge ${state.currentAnimal.difficulty}`;
+    if (difficultyBadge) {
+      if (state.isSquirrelRound) {
+        difficultyBadge.textContent = "SQUIRREL ROUND 🐿️";
+        difficultyBadge.className = `difficulty-badge hard`;
+        if (soundQuestion) soundQuestion.textContent = "Which TWO animals do you hear?";
+      } else if (state.currentAnimal) {
+        difficultyBadge.textContent = state.currentAnimal.difficulty.toUpperCase();
+        difficultyBadge.className = `difficulty-badge ${state.currentAnimal.difficulty}`;
+        if (soundQuestion) soundQuestion.textContent = "What animal makes this sound?";
+      }
     }
 
     if (state.gameOver) {
@@ -206,6 +214,10 @@ class GameUI {
     state.choices.forEach((animal, index) => {
       const button = document.createElement('button');
       button.className = 'choice-button';
+      
+      const isSelected = state.isSquirrelRound && state.selectedSquirrelChoices.find(c => c.name === animal.name);
+      if (isSelected) button.classList.add('selected');
+
       button.innerHTML = `
         <span class="key-hint">${index + 1}</span>
         <span class="animal-emoji">${animal.emoji}</span>
@@ -297,9 +309,13 @@ class GameUI {
   }
 
   private makeGuess(animal: any): void {
-    this.stopSound();
     this.game.makeGuess(animal);
-    this.choiceButtons.forEach(button => { button.disabled = true; });
+    
+    const state = this.game.getState();
+    if (state.showAnswer) {
+      this.stopSound();
+      this.choiceButtons.forEach(button => { button.disabled = true; });
+    }
     this.updateUI();
   }
 
@@ -309,18 +325,48 @@ class GameUI {
     const resultMessage = document.getElementById('result-message');
     const answerDisplay = document.getElementById('answer-display');
 
-    if (!resultSection || !resultMessage || !answerDisplay || !state.currentAnimal) return;
+    if (!resultSection || !resultMessage || !answerDisplay) return;
 
-    const isCorrect = state.selectedChoice?.name === state.currentAnimal.name;
+    let isCorrect = false;
+    let answerHtml = '';
 
-    this.choiceButtons.forEach(button => {
-      const animalName = button.querySelector('span:not(.animal-emoji):not(.key-hint)')?.textContent;
-      if (animalName === state.currentAnimal!.name) {
-        button.classList.add('correct');
-      } else if (animalName === state.selectedChoice?.name && !isCorrect) {
-        button.classList.add('incorrect');
-      }
-    });
+    if (state.isSquirrelRound) {
+      const correctNames = state.squirrelAnimals.map(a => a.name);
+      const selectedNames = state.selectedSquirrelChoices.map(a => a.name);
+      isCorrect = correctNames.every(name => selectedNames.includes(name));
+
+      this.choiceButtons.forEach(button => {
+        const animalName = button.querySelector('span:not(.animal-emoji):not(.key-hint)')?.textContent;
+        if (correctNames.includes(animalName!)) {
+          button.classList.add('correct');
+        } else if (selectedNames.includes(animalName!) && !correctNames.includes(animalName!)) {
+          button.classList.add('incorrect');
+        }
+      });
+
+      answerHtml = state.squirrelAnimals.map(a => `
+        <div style="margin-bottom: 10px;">
+          <span class="answer-emoji">${a.emoji}</span>
+          <div class="answer-name">${a.name}</div>
+        </div>
+      `).join('');
+    } else {
+      isCorrect = state.selectedChoice?.name === state.currentAnimal?.name;
+      this.choiceButtons.forEach(button => {
+        const animalName = button.querySelector('span:not(.animal-emoji):not(.key-hint)')?.textContent;
+        if (animalName === state.currentAnimal!.name) {
+          button.classList.add('correct');
+        } else if (animalName === state.selectedChoice?.name && !isCorrect) {
+          button.classList.add('incorrect');
+        }
+      });
+
+      answerHtml = `
+        <span class="answer-emoji">${state.currentAnimal?.emoji}</span>
+        <div class="answer-name">${state.currentAnimal?.name}</div>
+        <a class="source-link" href="${state.currentAnimal?.sourceUrl}" target="_blank" rel="noopener">🔗 Sound source</a>
+      `;
+    }
 
     resultSection.style.display = 'block';
 
@@ -332,13 +378,7 @@ class GameUI {
       resultMessage.className = 'result-message incorrect';
     }
 
-    answerDisplay.innerHTML = `
-      <span class="answer-emoji">${state.currentAnimal.emoji}</span>
-      <div class="answer-name">${state.currentAnimal.name}</div>
-      <a class="source-link" href="${state.currentAnimal.sourceUrl}" target="_blank" rel="noopener">🔗 Sound source (Wikimedia Commons)</a>
-    `;
-    
-    // Auto-play correct sound on reveal
+    answerDisplay.innerHTML = answerHtml;
     this.playSound();
   }
 
@@ -359,7 +399,6 @@ class GameUI {
 
     const stats = this.game.getFinalStats();
 
-    // Hide game area to prevent overlap
     if (gameArea) {
       const soundSection = gameArea.querySelector('.sound-section') as HTMLElement;
       const choices = gameArea.querySelector('.choices') as HTMLElement;
