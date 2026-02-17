@@ -6,9 +6,6 @@ export interface Animal {
   difficulty: 'easy' | 'medium' | 'hard';
 }
 
-// Base path for local sounds in public/sounds/
-const LOCAL = './sounds/';
-
 export const animals: Animal[] = [
   // Easy animals
   { name: 'Cat', emoji: '🐱', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/6/69/Purring_cat_bertie.ogg', sourceUrl: 'https://commons.wikimedia.org/wiki/File:Purring_cat_bertie.ogg', difficulty: 'easy' },
