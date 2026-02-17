@@ -1,5 +1,6 @@
 import './style.css';
-import { SoundGuessrGame } from './game';
+import { SoundGuessrGame, GameMode } from './game';
+import { getTodaysDateString } from './animals';
 
 class GameUI {
   private game: SoundGuessrGame;
@@ -8,14 +9,44 @@ class GameUI {
   private waveform: HTMLElement | null = null;
   private choiceButtons: HTMLButtonElement[] = [];
   private checkPlayingInterval: ReturnType<typeof setInterval> | null = null;
+  private currentMode: GameMode = 'classic';
 
   constructor() {
-    this.game = new SoundGuessrGame();
+    this.game = new SoundGuessrGame('classic');
     this.app = document.getElementById('app')!;
-    this.init();
+    this.showModeSelect();
   }
 
-  private init(): void {
+  private showModeSelect(): void {
+    const dateStr = getTodaysDateString();
+    this.app.innerHTML = `
+      <div class="game-container">
+        <div class="header">
+          <h1 class="title">🔊 Critter Calls</h1>
+          <p class="subtitle">Guess the animal from its sound!</p>
+        </div>
+        <div class="mode-select">
+          <button class="mode-button classic-button" id="mode-classic">
+            <span class="mode-emoji">🎲</span>
+            <span class="mode-title">Classic</span>
+            <span class="mode-desc">10 random rounds with Squirrel Rounds</span>
+          </button>
+          <button class="mode-button daily-button" id="mode-daily">
+            <span class="mode-emoji">📅</span>
+            <span class="mode-title">Daily Challenge</span>
+            <span class="mode-desc">${dateStr}<br>5 rounds · same for everyone today</span>
+          </button>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('mode-classic')?.addEventListener('click', () => this.startWithMode('classic'));
+    document.getElementById('mode-daily')?.addEventListener('click', () => this.startWithMode('daily'));
+  }
+
+  private startWithMode(mode: GameMode): void {
+    this.currentMode = mode;
+    this.game = new SoundGuessrGame(mode);
     this.render();
     this.game.startGame();
     this.updateUI();
@@ -31,7 +62,7 @@ class GameUI {
       <div class="game-container" id="main-container">
         <div class="header">
           <h1 class="title">🔊 Critter Calls</h1>
-          <p class="subtitle">Guess the animal from its sound!</p>
+          <p class="subtitle" id="game-subtitle">${this.currentMode === 'daily' ? '📅 Daily Challenge — ' + getTodaysDateString() : 'Guess the animal from its sound!'}</p>
         </div>
 
         <div class="progress-bar">
@@ -79,6 +110,7 @@ class GameUI {
             <div class="final-score" id="final-score">0</div>
             <div class="score-breakdown" id="score-breakdown"></div>
             <button class="restart-button" id="restart-button">Play Again</button>
+            <button class="restart-button" id="menu-button" style="background: var(--primary-color); margin-top: 0.5rem;">Change Mode</button>
           </div>
         </div>
       </div>
@@ -101,6 +133,7 @@ class GameUI {
 
     document.getElementById('next-button')?.addEventListener('click', () => this.nextRound());
     document.getElementById('restart-button')?.addEventListener('click', () => this.restartGame());
+    document.getElementById('menu-button')?.addEventListener('click', () => this.showModeSelect());
 
     // Keyboard support
     window.addEventListener('keydown', (e) => {

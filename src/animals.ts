@@ -36,6 +36,51 @@ export const animals: Animal[] = [
   { name: 'Cicada', emoji: '🪲', soundUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/ed/Cicada_calling_in_Irving%2C_TX_in_June_of_2012.ogg', sourceUrl: 'https://commons.wikimedia.org/wiki/File:Cicada_calling_in_Irving,_TX_in_June_of_2012.ogg', difficulty: 'hard' },
 ];
 
+// Simple seeded PRNG (mulberry32)
+function mulberry32(seed: number): () => number {
+  return () => {
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+
+function seededShuffle<T>(arr: T[], rng: () => number): T[] {
+  const copy = [...arr];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+export function getTodaysSeed(): number {
+  const now = new Date();
+  return now.getFullYear() * 10000 + (now.getMonth() + 1) * 100 + now.getDate();
+}
+
+export function getTodaysDateString(): string {
+  const now = new Date();
+  return now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+export function getDailyAnimals(): Animal[] {
+  const seed = getTodaysSeed();
+  const rng = mulberry32(seed);
+  const shuffled = seededShuffle(animals, rng);
+  return shuffled.slice(0, 5);
+}
+
+export function getDailyChoices(correctAnimal: Animal, seed: number, roundIndex: number): Animal[] {
+  const rng = mulberry32(seed * 1000 + roundIndex);
+  const incorrectChoices = seededShuffle(
+    animals.filter(a => a.name !== correctAnimal.name),
+    rng
+  ).slice(0, 3);
+  return seededShuffle([correctAnimal, ...incorrectChoices], rng);
+}
+
 export function getRandomAnimals(count: number): Animal[] {
   const shuffled = [...animals].sort(() => 0.5 - Math.random());
   return shuffled.slice(0, count);

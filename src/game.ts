@@ -1,4 +1,6 @@
-import { Animal, animals, getRandomAnimals, generateChoices } from './animals';
+import { Animal, animals, getRandomAnimals, generateChoices, getDailyAnimals, getDailyChoices, getTodaysSeed } from './animals';
+
+export type GameMode = 'classic' | 'daily';
 
 export interface GameState {
   currentRound: number;
@@ -17,6 +19,7 @@ export interface GameState {
   squirrelAnimals: Animal[];
   selectedSquirrelChoices: Animal[];
   maxPossibleScore: number;
+  mode: GameMode;
 }
 
 export interface RoundResult {
@@ -32,8 +35,10 @@ export class SoundGuessrGame {
   private state: GameState;
   private gameAnimals: Animal[];
   private audioElements: HTMLAudioElement[] = [];
+  private mode: GameMode;
 
-  constructor() {
+  constructor(mode: GameMode = 'classic') {
+    this.mode = mode;
     this.state = this.getInitialState();
     this.gameAnimals = this.generateGamePlaylist();
   }
@@ -41,7 +46,7 @@ export class SoundGuessrGame {
   private getInitialState(): GameState {
     return {
       currentRound: 0,
-      totalRounds: 10,
+      totalRounds: this.mode === 'daily' ? 5 : 10,
       score: 0,
       streak: 0,
       currentAnimal: null,
@@ -55,21 +60,24 @@ export class SoundGuessrGame {
       isSquirrelRound: false,
       squirrelAnimals: [],
       selectedSquirrelChoices: [],
-      maxPossibleScore: 0
+      maxPossibleScore: 0,
+      mode: this.mode
     };
   }
 
   private generateGamePlaylist(): Animal[] {
-    const list = getRandomAnimals(10);
-    // Round 7 is always squirrel round if possible
-    return list;
+    if (this.mode === 'daily') {
+      return getDailyAnimals();
+    }
+    return getRandomAnimals(10);
   }
 
   public getState(): GameState {
     return { ...this.state };
   }
 
-  public startGame(): void {
+  public startGame(mode?: GameMode): void {
+    if (mode !== undefined) this.mode = mode;
     this.state = this.getInitialState();
     this.gameAnimals = this.generateGamePlaylist();
     this.nextRound();
@@ -83,8 +91,8 @@ export class SoundGuessrGame {
 
     this.state.currentRound++;
     
-    // Check if it's squirrel round (Round 7 and Round 10)
-    this.state.isSquirrelRound = (this.state.currentRound === 7 || this.state.currentRound === 10);
+    // Check if it's squirrel round (Round 7 and Round 10) — classic mode only
+    this.state.isSquirrelRound = this.mode === 'classic' && (this.state.currentRound === 7 || this.state.currentRound === 10);
     
     if (this.state.isSquirrelRound) {
       this.state.squirrelAnimals = getRandomAnimals(2); // 2 animals at once
@@ -97,7 +105,9 @@ export class SoundGuessrGame {
       this.state.selectedSquirrelChoices = [];
     } else {
       this.state.currentAnimal = this.gameAnimals[this.state.currentRound - 1];
-      this.state.choices = generateChoices(this.state.currentAnimal, animals);
+      this.state.choices = this.mode === 'daily'
+        ? getDailyChoices(this.state.currentAnimal, getTodaysSeed(), this.state.currentRound)
+        : generateChoices(this.state.currentAnimal, animals);
       this.state.squirrelAnimals = [];
     }
     
