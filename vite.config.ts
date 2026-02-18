@@ -1,7 +1,9 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  base: '/animal-sound-guessr/',
+  // Base path: use "/" for Cloudflare Pages (root domain)
+  // Use "/animal-sound-guessr/" for GitHub Pages (subdirectory)
+  base: process.env.CF_PAGES ? '/' : '/animal-sound-guessr/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
