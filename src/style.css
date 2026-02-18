@@ -237,22 +237,6 @@ body {
   font-weight: bold;
 }
 
-.difficulty-badge {
-  display: inline-block;
-  font-size: 0.7rem;
-  font-weight: bold;
-  padding: 3px 8px;
-  border-radius: 20px;
-  margin-bottom: 0.5rem;
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.difficulty-badge.easy { background-color: #27ae60; }
-.difficulty-badge.medium { background-color: #f39c12; }
-.difficulty-badge.hard { background-color: #e74c3c; }
-
 /* Squirrel Round Animations */
 @keyframes squirrel-bounce {
   0%, 100% { transform: translateY(0) rotate(0); }

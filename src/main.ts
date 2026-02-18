@@ -196,9 +196,9 @@ class GameUI {
         difficultyBadge.className = `difficulty-badge hard`;
         if (soundQuestion) soundQuestion.textContent = "Which TWO animals do you hear?";
         document.getElementById('main-container')?.classList.add('squirrel-mode-active');
-      } else if (state.currentAnimal) {
-        difficultyBadge.textContent = state.currentAnimal.difficulty.toUpperCase();
-        difficultyBadge.className = `difficulty-badge ${state.currentAnimal.difficulty}`;
+      } else {
+        // Non-squirrel rounds: hide badge
+        if (difficultyBadge) difficultyBadge.style.display = 'none';
         if (soundQuestion) soundQuestion.textContent = "What animal makes this sound?";
         document.getElementById('main-container')?.classList.remove('squirrel-mode-active');
       }
