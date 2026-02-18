@@ -237,6 +237,11 @@ body {
   font-weight: bold;
 }
 
+.difficulty-badge {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
 /* Squirrel Round Animations */
 @keyframes squirrel-bounce {
   0%, 100% { transform: translateY(0) rotate(0); }
