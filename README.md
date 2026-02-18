@@ -49,3 +49,4 @@ The game is fully responsive and works great on mobile devices with touch contro
 ## 📄 License
 
 This project is open source and available under the MIT License.
+\n<!-- Build trigger -->
