@@ -67,7 +67,7 @@ async function downloadAll() {
     }
 
     // Be nice to the server
-    await sleep(2000);
+    await sleep(60000);
   }
 }
 
