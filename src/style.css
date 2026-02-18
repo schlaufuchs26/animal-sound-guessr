@@ -249,9 +249,6 @@ body {
   letter-spacing: 0.05em;
 }
 
-.difficulty-badge.easy { background-color: #27ae60; }
-.difficulty-badge.medium { background-color: #f39c12; }
-.difficulty-badge.hard { background-color: #e74c3c; }
 
 /* Squirrel Round Animations */
 @keyframes squirrel-bounce {
