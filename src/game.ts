@@ -204,8 +204,7 @@ export class SoundGuessrGame {
     if (this.state.isSquirrelRound) {
       baseRoundPoints = 500;
     } else {
-      const basePoints = { easy: 100, medium: 200, hard: 300 };
-      baseRoundPoints = basePoints[(animal as Animal).difficulty];
+      baseRoundPoints = 200;
     }
 
     // Max possible score assumes perfect streak from the start
