@@ -1,4 +1,4 @@
-# 🔊 SoundGuessr - Animal Sound Game
+# 🔊 Critter Calls - Animal Sound Game
 
 A fun web game where you guess animals based on their sounds! Test your knowledge of animal sounds with this interactive TypeScript game.
 
@@ -12,59 +12,39 @@ A fun web game where you guess animals based on their sounds! Test your knowledg
 ## 🎯 Features
 
 - **10 rounds per game** with different animals each time
-- **Scoring system** based on correctness, speed, and difficulty
+- **Scoring system** based on correctness and speed
 - **Streak bonuses** for consecutive correct answers
-- **3 difficulty levels**: Easy, Medium, Hard
 - **Mobile-friendly** responsive design
 - **Sound visualization** with waveform animation
 - **Progress tracking** and detailed stats
-
-## 🎵 Animals Included
-
-### Easy (100 base points)
-- Cat 🐱, Dog 🐶, Cow 🐄, Horse 🐴, Sheep 🐑, Pig 🐷
-
-### Medium (200 base points)
-- Lion 🦁, Eagle 🦅, Wolf 🐺, Elephant 🐘, Monkey 🐒, Bear 🐻, Owl 🦉, Frog 🐸
-
-### Hard (300 base points)
-- Kookaburra 🦜, Red Fox 🦊, Lyrebird 🐦, Cicada 🦗, Hyena 🐺, Dolphin 🐬, Whale 🐋
 
 ## 🛠️ Tech Stack
 
 - **TypeScript** - Type-safe JavaScript
 - **Vite** - Fast build tool and dev server
+- **pnpm** - Fast, disk space efficient package manager
 - **Vanilla CSS** - Clean, modern styling with CSS Grid and Flexbox
 - **Web Audio API** - For playing animal sounds
-- **GitHub Pages** - Deployment platform
 
 ## 🚀 Development
 
 ```bash
-# Install dependencies
-npm install
+# Install dependencies (requires pnpm)
+pnpm install
 
 # Start development server
-npm run dev
+pnpm dev
 
 # Build for production
-npm run build
+pnpm build
 
 # Preview production build
-npm run preview
+pnpm preview
 ```
 
 ## 📱 Mobile Support
 
 The game is fully responsive and works great on mobile devices with touch controls and optimized layouts.
-
-## 🌐 Live Demo
-
-Play the game at: [https://schlaufuchs26.github.io/animal-sound-guessr/](https://schlaufuchs26.github.io/animal-sound-guessr/)
-
-## 🎵 Sound Sources
-
-Animal sounds are sourced from Freesound.org and other free/Creative Commons licensed sources.
 
 ## 📄 License
 
